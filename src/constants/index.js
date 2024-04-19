@@ -42,12 +42,6 @@ export const navigation = [
         url: "/#signup",
         onlyMobile: true,
     },
-    {
-        id: "4",
-        title: "Connect wallet",
-        url: "/#login",
-        onlyMobile: true,
-    },
 ];
 
 export const companyLogos = [xStock, xStock, xStock, xStock, xStock];

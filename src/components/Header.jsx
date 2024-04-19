@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { xStock } from "../assets";
 import { navigation } from "../constants";
 import Button from "./Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
+import SearchBar from "./SearchBar";
+import { useGetIsLoggedIn } from "@multiversx/sdk-dapp/hooks";
+import { logout } from "@multiversx/sdk-dapp/utils";
 
 const Header = () => {
     const pathname = useLocation();
+    const navigate = useNavigate();
 
     const [openNavigation, setOpenNavigation] = useState(false);
 
@@ -28,6 +32,9 @@ const Header = () => {
         enablePageScroll();
         setOpenNavigation(false);
     };
+
+    const isLoggedIn = useGetIsLoggedIn();
+    console.log(isLoggedIn);
 
     return (
         <div
@@ -67,9 +74,25 @@ const Header = () => {
                     </div>
                     <HamburgerMenu></HamburgerMenu>
                 </nav>
-                <Button className="lg:flex hidden" href="#login">
-                    Sign in
-                </Button>
+                <div className="flex flex-row items-center">
+                    <SearchBar />
+                    {isLoggedIn ? (
+                        <Button
+                            className="lg:flex hidden"
+                            href="/"
+                            onClick={() => logout()}
+                        >
+                            Log Out
+                        </Button>
+                    ) : (
+                        <Button
+                            className="lg:flex hidden"
+                            onClick={() => navigate("unlock")}
+                        >
+                            Log In
+                        </Button>
+                    )}
+                </div>
                 <Button
                     className="ml-auto lg:hidden"
                     px="px-3"
